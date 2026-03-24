@@ -1,0 +1,20 @@
+import java.util.HashMap;
+import java.util.Map;
+
+public class UC6BogieCapacityHashMap {
+    public static void main(String[] args) {
+        System.out.println("=== Train Consist Management App ===");
+        System.out.println("UC6: Map Bogie to Capacity (HashMap)");
+
+        Map<String, Integer> bogieCapacityMap = new HashMap<>();
+
+        bogieCapacityMap.put("Sleeper", 72);
+        bogieCapacityMap.put("AC Chair", 78);
+        bogieCapacityMap.put("First Class", 24);
+
+        System.out.println("Bogie capacity details:");
+        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        }
+    }
+}
