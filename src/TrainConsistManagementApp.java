@@ -38,6 +38,29 @@ public class TrainConsistManagementApp {
     private static final Pattern TRAIN_ID_PATTERN = Pattern.compile("TRN-\\d{4}");
     private static final Pattern CARGO_CODE_PATTERN = Pattern.compile("PET-[A-Z]{2}");
 
+    static class GoodsBogie {
+        private final String shape;
+        private final String cargo;
+
+        GoodsBogie(String shape, String cargo) {
+            this.shape = shape;
+            this.cargo = cargo;
+        }
+
+        String getShape() {
+            return shape;
+        }
+
+        String getCargo() {
+            return cargo;
+        }
+
+        @Override
+        public String toString() {
+            return shape + " -> " + cargo;
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println("=== Train Consist Management App ===");
 
@@ -58,6 +81,7 @@ public class TrainConsistManagementApp {
         runUC9(passengerBogies);
         runUC10(passengerBogies);
         runUC11("TRN-1234", "PET-AB");
+        runUC12();
     }
 
     private static void runUC1(List<PassengerBogie> bogies) {
@@ -141,5 +165,15 @@ public class TrainConsistManagementApp {
         boolean cargoValid = CARGO_CODE_PATTERN.matcher(cargoCode).matches();
         System.out.println("Train ID " + trainId + " valid: " + trainValid);
         System.out.println("Cargo code " + cargoCode + " valid: " + cargoValid);
+    }
+
+    private static void runUC12() {
+        System.out.println("\nUC12: Goods Bogie Safety Compliance");
+        List<GoodsBogie> goods = new ArrayList<>();
+        goods.add(new GoodsBogie("Cylindrical", "Petroleum"));
+        goods.add(new GoodsBogie("Open", "Coal"));
+        boolean safe = goods.stream().allMatch(b -> !"Cylindrical".equalsIgnoreCase(b.getShape())
+                || "Petroleum".equalsIgnoreCase(b.getCargo()));
+        System.out.println("Safety compliant: " + safe);
     }
 }
