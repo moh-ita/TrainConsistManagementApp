@@ -35,6 +35,30 @@ public class TrainConsistManagementApp {
         }
     }
 
+    static class InvalidCapacityException extends Exception {
+        InvalidCapacityException(String message) {
+            super(message);
+        }
+    }
+
+    static class ValidatedPassengerBogie {
+        private final String type;
+        private final int capacity;
+
+        ValidatedPassengerBogie(String type, int capacity) throws InvalidCapacityException {
+            if (capacity <= 0) {
+                throw new InvalidCapacityException("Capacity must be greater than zero");
+            }
+            this.type = type;
+            this.capacity = capacity;
+        }
+
+        @Override
+        public String toString() {
+            return type + " -> " + capacity + " seats";
+        }
+    }
+
     private static final Pattern TRAIN_ID_PATTERN = Pattern.compile("TRN-\\d{4}");
     private static final Pattern CARGO_CODE_PATTERN = Pattern.compile("PET-[A-Z]{2}");
 
@@ -83,6 +107,7 @@ public class TrainConsistManagementApp {
         runUC11("TRN-1234", "PET-AB");
         runUC12();
         runUC13(passengerBogies);
+        runUC14();
     }
 
     private static void runUC1(List<PassengerBogie> bogies) {
@@ -197,5 +222,16 @@ public class TrainConsistManagementApp {
 
         System.out.println("Loop result size: " + loopResult.size() + ", time(ns): " + (loopEnd - loopStart));
         System.out.println("Stream result size: " + streamResult.size() + ", time(ns): " + (streamEnd - streamStart));
+    }
+    
+    private static void runUC14() {
+        System.out.println("\nUC14: Custom Exception for Invalid Capacity");
+        try {
+            ValidatedPassengerBogie valid = new ValidatedPassengerBogie("Sleeper", 72);
+            System.out.println("Created: " + valid);
+            new ValidatedPassengerBogie("AC Chair", 0);
+        } catch (InvalidCapacityException e) {
+            System.out.println("Validation failed: " + e.getMessage());
+        }
     }
 }
