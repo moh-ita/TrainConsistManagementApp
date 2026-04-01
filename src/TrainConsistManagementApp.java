@@ -51,6 +51,7 @@ public class TrainConsistManagementApp {
         runUC6(passengerBogies);
         runUC7(passengerBogies);
         runUC8(passengerBogies);
+        runUC9(passengerBogies);
     }
 
     private static void runUC1(List<PassengerBogie> bogies) {
@@ -113,5 +114,12 @@ public class TrainConsistManagementApp {
                 .filter(b -> b.getCapacity() > 60)
                 .collect(Collectors.toList());
         filtered.forEach(System.out::println);
+    }
+
+    private static void runUC9(List<PassengerBogie> bogies) {
+        System.out.println("\nUC9: Group Bogies by Type");
+        Map<String, List<PassengerBogie>> grouped = bogies.stream()
+                .collect(Collectors.groupingBy(PassengerBogie::getType));
+        grouped.forEach((k, v) -> System.out.println(k + " => " + v));
     }
 }
