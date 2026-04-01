@@ -52,6 +52,7 @@ public class TrainConsistManagementApp {
         runUC7(passengerBogies);
         runUC8(passengerBogies);
         runUC9(passengerBogies);
+        runUC10(passengerBogies);
     }
 
     private static void runUC1(List<PassengerBogie> bogies) {
@@ -121,5 +122,11 @@ public class TrainConsistManagementApp {
         Map<String, List<PassengerBogie>> grouped = bogies.stream()
                 .collect(Collectors.groupingBy(PassengerBogie::getType));
         grouped.forEach((k, v) -> System.out.println(k + " => " + v));
+    }
+
+    private static void runUC10(List<PassengerBogie> bogies) {
+        System.out.println("\nUC10: Count Total Seats using reduce");
+        int totalSeats = bogies.stream().map(PassengerBogie::getCapacity).reduce(0, Integer::sum);
+        System.out.println("Total seating capacity: " + totalSeats);
     }
 }
