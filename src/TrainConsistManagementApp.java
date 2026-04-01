@@ -82,6 +82,7 @@ public class TrainConsistManagementApp {
         runUC10(passengerBogies);
         runUC11("TRN-1234", "PET-AB");
         runUC12();
+        runUC13(passengerBogies);
     }
 
     private static void runUC1(List<PassengerBogie> bogies) {
@@ -175,5 +176,26 @@ public class TrainConsistManagementApp {
         boolean safe = goods.stream().allMatch(b -> !"Cylindrical".equalsIgnoreCase(b.getShape())
                 || "Petroleum".equalsIgnoreCase(b.getCargo()));
         System.out.println("Safety compliant: " + safe);
+    }
+
+    private static void runUC13(List<PassengerBogie> bogies) {
+        System.out.println("\nUC13: Loop vs Stream Performance");
+        long loopStart = System.nanoTime();
+        List<PassengerBogie> loopResult = new ArrayList<>();
+        for (PassengerBogie bogie : bogies) {
+            if (bogie.getCapacity() > 60) {
+                loopResult.add(bogie);
+            }
+        }
+        long loopEnd = System.nanoTime();
+
+        long streamStart = System.nanoTime();
+        List<PassengerBogie> streamResult = bogies.stream()
+                .filter(b -> b.getCapacity() > 60)
+                .collect(Collectors.toList());
+        long streamEnd = System.nanoTime();
+
+        System.out.println("Loop result size: " + loopResult.size() + ", time(ns): " + (loopEnd - loopStart));
+        System.out.println("Stream result size: " + streamResult.size() + ", time(ns): " + (streamEnd - streamStart));
     }
 }
