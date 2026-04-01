@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class TrainConsistManagementApp {
@@ -34,6 +35,9 @@ public class TrainConsistManagementApp {
         }
     }
 
+    private static final Pattern TRAIN_ID_PATTERN = Pattern.compile("TRN-\\d{4}");
+    private static final Pattern CARGO_CODE_PATTERN = Pattern.compile("PET-[A-Z]{2}");
+
     public static void main(String[] args) {
         System.out.println("=== Train Consist Management App ===");
 
@@ -53,6 +57,7 @@ public class TrainConsistManagementApp {
         runUC8(passengerBogies);
         runUC9(passengerBogies);
         runUC10(passengerBogies);
+        runUC11("TRN-1234", "PET-AB");
     }
 
     private static void runUC1(List<PassengerBogie> bogies) {
@@ -128,5 +133,13 @@ public class TrainConsistManagementApp {
         System.out.println("\nUC10: Count Total Seats using reduce");
         int totalSeats = bogies.stream().map(PassengerBogie::getCapacity).reduce(0, Integer::sum);
         System.out.println("Total seating capacity: " + totalSeats);
+    }
+
+    private static void runUC11(String trainId, String cargoCode) {
+        System.out.println("\nUC11: Validate Train ID and Cargo Codes using Regex");
+        boolean trainValid = TRAIN_ID_PATTERN.matcher(trainId).matches();
+        boolean cargoValid = CARGO_CODE_PATTERN.matcher(cargoCode).matches();
+        System.out.println("Train ID " + trainId + " valid: " + trainValid);
+        System.out.println("Cargo code " + cargoCode + " valid: " + cargoValid);
     }
 }
