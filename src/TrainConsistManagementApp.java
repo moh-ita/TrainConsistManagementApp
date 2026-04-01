@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -47,6 +48,7 @@ public class TrainConsistManagementApp {
         runUC4(passengerBogies);
         runUC5(passengerBogies);
         runUC6(passengerBogies);
+        runUC7(passengerBogies);
     }
 
     private static void runUC1(List<PassengerBogie> bogies) {
@@ -94,5 +96,12 @@ public class TrainConsistManagementApp {
             map.put(bogie.getType(), bogie.getCapacity());
         }
         System.out.println("Capacity map: " + map);
+    }
+
+    private static void runUC7(List<PassengerBogie> bogies) {
+        System.out.println("\nUC7: Sort Bogies by Capacity");
+        List<PassengerBogie> sorted = new ArrayList<>(bogies);
+        sorted.sort(Comparator.comparingInt(PassengerBogie::getCapacity));
+        sorted.forEach(System.out::println);
     }
 }
