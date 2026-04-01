@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TrainConsistManagementApp {
 
@@ -49,6 +50,7 @@ public class TrainConsistManagementApp {
         runUC5(passengerBogies);
         runUC6(passengerBogies);
         runUC7(passengerBogies);
+        runUC8(passengerBogies);
     }
 
     private static void runUC1(List<PassengerBogie> bogies) {
@@ -103,5 +105,13 @@ public class TrainConsistManagementApp {
         List<PassengerBogie> sorted = new ArrayList<>(bogies);
         sorted.sort(Comparator.comparingInt(PassengerBogie::getCapacity));
         sorted.forEach(System.out::println);
+    }
+
+    private static void runUC8(List<PassengerBogie> bogies) {
+        System.out.println("\nUC8: Filter Passenger Bogies using Stream");
+        List<PassengerBogie> filtered = bogies.stream()
+                .filter(b -> b.getCapacity() > 60)
+                .collect(Collectors.toList());
+        filtered.forEach(System.out::println);
     }
 }
